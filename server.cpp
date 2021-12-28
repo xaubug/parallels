@@ -28,9 +28,9 @@ int main(int argc, char **argv){
     for(;;) {
             cout << "Камней у машины: " << l_gamble1 <<  endl;
             srand(unsigned(time(nullptr)));
-            l_gamle2 = (rand() % l_gamble1) + 1;
+            l_gamble2 = (rand() % l_gamble1) + 1;
 
-            MPI_Send(&l_gamle2, 1, MPI_INT, 0, 0, intercomm);
+            MPI_Send(&l_gamble2, 1, MPI_INT, 0, 0, intercomm);
             MPI_Recv(&l_recieved, 1, MPI_INT, 0, 0, intercomm, &l_status);
 
             if (l_recieved < 0)
