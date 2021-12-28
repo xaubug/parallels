@@ -11,7 +11,7 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-    int lt_rem[2];
+    int l_bf;
     int l_indic;
     int l_bet;
     int l_min;
@@ -19,7 +19,7 @@ int main(int argc, char **argv){
     int l_rem;
     bool f_game_over;
 
-    lt_rem[0] = 20;
+    l_bf = 20;
 
     MPI_Init(&argc, &argv);
     char port_name[MPI_MAX_PORT_NAME];
@@ -31,29 +31,30 @@ int main(int argc, char **argv){
 
 
     for(;;) {
-        cout << "У вас камней:" << lt_rem[0] << endl;
+        cout << "У вас камней:" << l_bf << endl;
         cout << "Введи: 0 - чётное, 1 - нечётное." << endl;
         cin >> l_indic;
         cout << "Загадай число" << endl;
         cin >> l_bet;
+
         MPI_Recv(&l_rem, 1, MPI_INT, 0, 0, intercomm, &status);
 
         if (l_indic == (l_rem % 2)) {
             cout << "Вы выигываете камней: " << min(l_bet, l_rem) << endl;
-            lt_rem[0] += min(l_bet, l_rem);
+            l_bf += min(l_bet, l_rem);
             l_min =  - min(l_bet, l_rem);
             MPI_Send(&l_min, 1, MPI_INT, 0, 0, intercomm);
         }
         else {
             cout << "Ты теряешь камней: " << min(l_bet, l_rem) << endl;
-            lt_rem[0] -= min(l_bet, l_rem);
+            l_bf -= min(l_bet, l_rem);
             l_min = min(l_bet, l_rem);
             MPI_Send(&l_min, 1, MPI_INT, 0, 0, intercomm);
         }
 
         f_game_over = false;
 
-        switch (lt_rem[0]) {
+        switch (l_bf) {
             case 40: cout << "Ты выиграл" << endl;
                 f_game_over = true;
                 break;
