@@ -44,9 +44,11 @@ int main(int argc, char **argv){
         switch (l_gamble1) {
             case 0:
                 cout << "Победил игрок" << endl;
+                f_game_over = true;
                 break;
             case 40:
                 cout << "Победила машина" << endl;
+                f_game_over = true;
                 break;
         }
 
